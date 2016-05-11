@@ -9,6 +9,21 @@
 #define F1(x) (x)*(1.0-x)               //A derivative function of sigmoid function
 #define N 8                             //numbers of hidden layer 
 
+void randomize()
+{ 
+	int i;
+	time_t t;
+	srand((unsigned) time(&t));
+}
+
+/********************************* 
+return the value between 0 ~ N-1
+**********************************/
+int random(int number) 
+{ 
+	return ( rand() % number );
+}
+
 /**********************************
 p: trainning number 
 x: input value
@@ -26,19 +41,6 @@ w_jk: the weight between hidden layer and output layer
 eta: speed
 mse: mean squared error  均方誤差
 ***********************************/
-void randomize()
-{ 
-	int i;
-	time_t t;
-	srand((unsigned) time(&t));
-	//srand(time(NULL));
-}
-
-int random(int number) // return the value between 0 ~ N-1
-{ 
-	return ( rand() % number );
-}
-
 int main(int argc, char** argv) 
 { 
 	int i,j,k,p=10,num,x[10][15],d_o[10][4];
@@ -91,7 +93,6 @@ int main(int argc, char** argv)
 		}
 	}
 
-#if 1
 	p=0;
 	num=1;
 	while(1){
@@ -100,10 +101,7 @@ int main(int argc, char** argv)
 		/*---------------------------------------------------------------------*/
 		if(p==10)	/* if trainning whole number one time, then print */
 		{
-			//printf("\n");
 			float m=0;
-			//printf("%4d \n",num);
-			
 			fprintf(fp,"%4d",num);
 			for(i=0;i<10;i++){
 				m=m+mse[i];
@@ -112,25 +110,43 @@ int main(int argc, char** argv)
 			}
 			printf("m: %5.3f \n",m);
 			fprintf(fp,"\n");
-			if(m<=0.1){	
-			//if(m<=0.05){	
+			//if(m<=9){	
+			if(m<=0.5){	
+				printf("w_ij[15][%d]=",N);
+				printf("{{");
 				for(j=0;j<N;j++){
 					for(i=0;i<15;i++){
-						printf("w_ij[%d][%d]=",i,j);
 						printf("%f",w_ij[i][j]);
-						printf(";");
-						printf("\n");
+						if(i<(15-1)){
+							printf(",");
+						}
 					}
+	
+					if(j==(N-1)){
+						printf("}};");
+					}else{ 
+						printf("},");
+					}
+					printf("\n");
 
 				}
 				printf("\n ----- \n");
+				printf("w_jk[%d][4]=",N);
+				printf("{{");
 				for(k=0;k<4;k++){
 					for(j=0;j<N;j++){
-						printf("w_jk[%d][%d]=",j,k);
 						printf("%f",w_jk[j][k]);
-						printf(";");
-						printf("\n");
+						if(j<(N-1)){
+							printf(",");
+						}
 					}
+					
+					if(k==(4-1)){
+						printf("}};");
+					}else{ 
+						printf("},");
+					}
+					printf("\n");
 				}
 				printf("\n ----- \n");
 				break;
@@ -201,7 +217,6 @@ int main(int argc, char** argv)
 		p++;
 	}
 	fclose(fp);	
-#endif
 	return 0;
 }
 
