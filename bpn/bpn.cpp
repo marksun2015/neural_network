@@ -1,3 +1,17 @@
+/*
+0 1 0
+1 0 1
+1 0 1  --> 0000
+1 0 1
+0 1 0
+
+
+0 1 0
+0 1 0
+0 1 0  --> 0001
+0 1 0
+0 1 0
+*/
 #include <stdio.h>
 #include <math.h>
 #include <stdlib.h>
